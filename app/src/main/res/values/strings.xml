@@ -3,4 +3,6 @@
     <string name="action_settings">Settings</string>
     <string name="facebook_app_id">1972297586329077</string>
     <string name="title_activity_facebook">FacebookActivity</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_profile_settings">profile_settings</string>
 </resources>
