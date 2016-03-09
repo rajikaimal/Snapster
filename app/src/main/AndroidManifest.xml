@@ -3,6 +3,7 @@
     package="lk.sliit.mad.snapster">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -40,6 +41,16 @@
         <activity
             android:name=".profile_settings"
             android:label="@string/title_activity_profile_settings"
+            android:name=".Categories"
+            android:label="@string/title_activity_categories"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FunnyFeed"
+            android:label="@string/title_activity_funny_feed"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FunnyHOF"
+            android:label="@string/title_activity_funny_hof"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

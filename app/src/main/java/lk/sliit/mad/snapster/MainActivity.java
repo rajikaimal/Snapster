@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent cameraIntent = new Intent("android.media.action.IMAGE_CAPTURE");
+                startActivity(cameraIntent);
             }
         });
     }
@@ -76,7 +76,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent i = new Intent(this, FacebookActivity.class);
+//        Intent i = new Intent(this, Categories.class);
+//        this.startActivity(i);
+    }
+
+    public void launchCategories(View v)
+    {
+        Intent i = new Intent(MainActivity.this, Categories.class);
         this.startActivity(i);
     }
 }
