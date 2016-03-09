@@ -3,6 +3,7 @@
     package="lk.sliit.mad.snapster">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -14,12 +15,11 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
-
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -33,6 +33,18 @@
         <activity
             android:name=".FacebookActivity"
             android:label="@string/title_activity_facebook"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Categories"
+            android:label="@string/title_activity_categories"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FunnyFeed"
+            android:label="@string/title_activity_funny_feed"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FunnyHOF"
+            android:label="@string/title_activity_funny_hof"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

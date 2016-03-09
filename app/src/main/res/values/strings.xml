@@ -3,4 +3,26 @@
     <string name="action_settings">Settings</string>
     <string name="facebook_app_id">1972297586329077</string>
     <string name="title_activity_facebook">FacebookActivity</string>
+    <string name="title_activity_categories">Categories</string>
+
+    <string-array name="titles">
+        <item>Funny</item>
+        <item>Moody</item>
+        <item>Romantic</item>
+        <item>Angry</item>
+    </string-array>
+    <string-array name="descriptions">
+        <item>Funniest selfies all round the world</item>
+        <item>Get moody with Snapster</item>
+        <item>Let\'s get cheeky with your partner</item>
+        <item>Let it out</item>
+    </string-array>
+    <string-array name="funnyHOFnames">
+        <item>Kendall Jenner</item>
+        <item>Jessica Jung</item>
+        <item>Kwon Yri</item>
+        <item>Blake Lively</item>
+    </string-array>
+    <string name="title_activity_funny_feed">Funny Feed</string>
+    <string name="title_activity_funny_hof">Funny Hall of Fame</string>
 </resources>
