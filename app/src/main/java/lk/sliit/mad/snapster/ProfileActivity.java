@@ -23,16 +23,11 @@ public class ProfileActivity extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent i = new Intent(getApplicationContext(), profile_settings.class);
+                startActivity(i);
             }
         });
 
-    }
-    public void onClick(View v) {
-        Intent i = new Intent(this, profile_settings.class);
-        this.startActivity(i);
     }
 
 }
