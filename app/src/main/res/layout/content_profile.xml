@@ -13,11 +13,6 @@
     tools:showIn="@layout/activity_profile"
     tools:context="lk.sliit.mad.snapster.ProfileActivity">
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent" >
-
             <ImageView
                 android:src = "@drawable/yuri"
                 android:layout_width="100dp"
@@ -50,8 +45,60 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="140dp">
 
-    </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:text="FUNNY"
+                    android:id="@+id/funny"
+                    android:layout_weight="50"
+                    android:imeOptions="actionDone" />
+
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:text="ANGRY"
+                    android:id="@+id/angry"
+                    android:layout_weight="50"
+                    android:imeOptions="actionDone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:text="MOODY"
+                    android:id="@+id/moody"
+                    android:layout_weight="50"
+                    android:imeOptions="actionDone" />
+
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:text="ROMANTIC"
+                    android:id="@+id/romantic"
+                    android:layout_weight="50"
+                    android:imeOptions="actionDone" />
+            </LinearLayout>
+
+        </LinearLayout>
 
 </RelativeLayout>
