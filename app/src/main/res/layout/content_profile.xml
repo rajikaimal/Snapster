@@ -62,20 +62,24 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
                 <Button
+                    android:textColor="#FFFFFF"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:text="FUNNY"
                     android:id="@+id/funny"
                     android:layout_weight="50"
-                    android:imeOptions="actionDone" />
+                    android:imeOptions="actionDone"
+                    android:background="@color/com_facebook_button_send_background_color_pressed"/>
 
                 <Button
+                    android:textColor="#FFFFFF"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:text="ANGRY"
                     android:id="@+id/angry"
                     android:layout_weight="50"
-                    android:imeOptions="actionDone" />
+                    android:imeOptions="actionDone"
+                    android:background="#FF5722"/>
             </LinearLayout>
 
             <LinearLayout
@@ -83,20 +87,24 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
                 <Button
+                    android:textColor="#FFFFFF"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:text="MOODY"
                     android:id="@+id/moody"
                     android:layout_weight="50"
-                    android:imeOptions="actionDone" />
+                    android:imeOptions="actionDone"
+                    android:background="#E040FB"/>
 
                 <Button
+                    android:textColor="#FFFFFF"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:text="ROMANTIC"
                     android:id="@+id/romantic"
                     android:layout_weight="50"
-                    android:imeOptions="actionDone" />
+                    android:imeOptions="actionDone"
+                    android:background="@color/colorAccent"/>
             </LinearLayout>
 
         </LinearLayout>
