@@ -8,8 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 public class profile_settings extends AppCompatActivity {
+    String[] data = new String[10];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +19,17 @@ public class profile_settings extends AppCompatActivity {
         setContentView(R.layout.activity_profile_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Bundle b=this.getIntent().getExtras();
+        data = b.getStringArray("Data");
+
+        TextView Name = (TextView) findViewById(R.id.editText_name);
+        TextView Email = (TextView) findViewById(R.id.editEmail);
+        TextView Username= (TextView)findViewById(R.id.editText_username);
+        Name.setText(data[0]);
+        Email.setText(data[2]);
+        Username.setText(data[3]);
+
     }
 
     @Override
