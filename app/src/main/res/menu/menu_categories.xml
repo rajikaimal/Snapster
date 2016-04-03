@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="lk.sliit.mad.snapster.Categories">
+    <item
+        android:id="@+id/action_camera"
+        android:icon="@drawable/com_facebook_favicon_white"
+        android:orderInCategory="100"
+        android:title="camera"
+        app:showAsAction="ifRoom" />
+</menu>
