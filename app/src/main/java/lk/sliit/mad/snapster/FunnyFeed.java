@@ -29,14 +29,53 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 public class FunnyFeed extends AppCompatActivity {
     String [] titles;
     String [] descriptions;
     int[] images = {R.drawable.kendall, R.drawable.yuri, R.drawable.tiffany, R.drawable.jessica};
+
+    ArrayList<Post> posts;
+    FunnyAdapter adapter;
+
+    private Socket mSocket;
+    {
+        try {
+            mSocket = IO.socket("https://hidden-shore-36246.herokuapp.com");
+        } catch (URISyntaxException e) {}
+    }
+
+
+    private Emitter.Listener onNewPost = new Emitter.Listener() {
+
+
+        @Override
+        public void call(Object... args) {
+            Log.d("socket", "socket call");
+            JSONObject data = (JSONObject) args[0];
+            try {
+                Post newPost = new Post(data);
+                setPostData(newPost, adapter);
+                //message = data.getString("message");
+            } catch (Exception e) {
+                return;
+            }
+
+        }
+    };
+
+    public void setPostData(Post newPost, FunnyAdapter adapter) {
+        adapter.add(newPost);
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,15 +84,18 @@ public class FunnyFeed extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Resources res = getResources();
-        //get titles and descriptions from strings.xml
-        titles = res.getStringArray(R.array.titles);
-        descriptions = res.getStringArray(R.array.descriptions);
-        //link listview
+
         ListView listView = (ListView) findViewById(R.id.listViewFunny);
 
-        ArrayList<Post> posts = new ArrayList<Post>();
-        final FunnyAdapter adapter = new FunnyAdapter(this,posts);
+        posts = new ArrayList<Post>();
+        adapter = new FunnyAdapter(this,posts);
         listView.setAdapter(adapter);
+
+        mSocket.emit("funnyfeedpost", "My message");
+        Log.d("socket", "sent post !!");
+        mSocket.on("newfunnypost", onNewPost);
+        mSocket.connect();
+
 
         AsyncHttpClient client = new AsyncHttpClient();
 
