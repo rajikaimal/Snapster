@@ -91,7 +91,7 @@ class SnapAdapter extends ArrayAdapter<String>
     String[] descriptions;
     SnapAdapter(Context c, String[] titles, int imgs[], String[] descriptions)
     {
-        super(c, R.layout.single_row, R.id.textView, titles);
+        super(c, R.layout.single_row, R.id.textView2, titles);
         this.context = c;
         this.images = imgs;
         this.titles = titles;
