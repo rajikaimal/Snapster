@@ -3,6 +3,7 @@ package lk.sliit.mad.snapster;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,8 +18,10 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -91,6 +94,16 @@ public class FunnyFeed extends AppCompatActivity {
         adapter = new FunnyAdapter(this,posts);
         listView.setAdapter(adapter);
 
+
+//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                String id = (String) adapterView.getItemAtPosition(i);
+//                Log.d("Item ", id);
+//                return false;
+//            }
+//        });
+
         mSocket.emit("funnyfeedpost", "My message");
         Log.d("socket", "sent post !!");
         mSocket.on("newfunnypost", onNewPost);
@@ -161,16 +174,18 @@ public class FunnyFeed extends AppCompatActivity {
 }
 
 class Post {
+    String _id;
     String username;
     String image;
-    //String description;
+    String description;
     int likes;
 
     public Post(JSONObject object) {
         try {
+            this._id = object.getString("_id");
             this.username = object.getString("username");
             this.image = object.getString("image");
-            //this.description = object.getString("description");
+            this.description = object.getString("description");
             this.likes = object.getInt("likes");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -184,6 +199,11 @@ class FunnyAdapter extends ArrayAdapter<Post>
     int images[];
     String[] titles;
     String[] descriptions;
+
+    //funnyfeed like button
+    Button funnyFeedLike;
+    Button funnyFeedComment;
+
     public FunnyAdapter(Context c, ArrayList<Post> posts)
     {
         super(c, 0, posts);
@@ -192,6 +212,7 @@ class FunnyAdapter extends ArrayAdapter<Post>
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Post post = getItem(position);
+        final Post postI  = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.single_row_funny, parent, false);
         }
@@ -199,6 +220,32 @@ class FunnyAdapter extends ArrayAdapter<Post>
         TextView username = (TextView) convertView.findViewById(R.id.textView4);
         TextView likes = (TextView)convertView.findViewById(R.id.textView6);
 
+        funnyFeedLike = (Button) convertView.findViewById(R.id.funnyFeedLike);
+        funnyFeedComment = (Button) convertView.findViewById(R.id.funnyFeedComment);
+        try {
+            funnyFeedLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    RelativeLayout rl = (RelativeLayout) view.getParent();
+                    Log.d("Button click", String.valueOf(postI._id));
+                    funnyFeedLike.setBackgroundResource(R.drawable.filledheart);
+                }
+            });
+
+            funnyFeedComment.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    RelativeLayout rl = (RelativeLayout) view.getParent();
+                    Log.d("Button click", String.valueOf(postI._id));
+                    Intent i = new Intent(getContext(), Comment.class);
+                    getContext().startActivity(i);
+                }
+            });
+        }
+        catch (NullPointerException e) {
+            Log.d("Exception: ", e.getStackTrace().toString());
+        }
         username.setText(post.username);
         Animation fadeInAnimation = new AlphaAnimation(0, 1);
         fadeInAnimation.setInterpolator(new DecelerateInterpolator()); //add this

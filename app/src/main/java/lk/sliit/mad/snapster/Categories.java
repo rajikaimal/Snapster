@@ -45,8 +45,6 @@ public class Categories extends AppCompatActivity {
         SnapAdapter adapter = new SnapAdapter(this, titles, images, descriptions);
         listView.setAdapter(adapter);
 
-
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
