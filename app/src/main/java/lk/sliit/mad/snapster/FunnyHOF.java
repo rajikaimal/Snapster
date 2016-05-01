@@ -56,7 +56,7 @@ class FunnyHOFAdapter extends ArrayAdapter<String>
     String[] descriptions;
     FunnyHOFAdapter(Context c, String[] titles, int imgs[], String[] descriptions)
     {
-        super(c, R.layout.single_row_funny, R.id.textView4, titles);
+        super(c, R.layout.single_row_funny, R.id.txtName, titles);
         this.context = c;
         this.images = imgs;
         this.titles = titles;
@@ -67,8 +67,8 @@ class FunnyHOFAdapter extends ArrayAdapter<String>
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View row = inflator.inflate(R.layout.single_row_funny, parent, false);
-        ImageView imageview = (ImageView) row.findViewById(R.id.imageView2);
-        TextView txt1 = (TextView) row.findViewById(R.id.textView4);
+        ImageView imageview = (ImageView) row.findViewById(R.id.imageViewFeed);
+        TextView txt1 = (TextView) row.findViewById(R.id.txtName);
         //TextView txt2 = (TextView) row.findViewById(R.id.textView5);
 
         imageview.setImageResource(images[position]);

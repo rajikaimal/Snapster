@@ -3,10 +3,8 @@ package lk.sliit.mad.snapster;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,14 +14,14 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.koushikdutta.ion.Ion;
 import com.loopj.android.http.*;
@@ -32,10 +30,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.entity.ByteArrayEntity;
+import cz.msebera.android.httpclient.entity.StringEntity;
+import cz.msebera.android.httpclient.message.BasicHeader;
+import cz.msebera.android.httpclient.protocol.HTTP;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -47,6 +53,8 @@ public class FunnyFeed extends AppCompatActivity {
 
     ArrayList<Post> posts;
     FunnyAdapter adapter;
+
+    ToggleButton likeToggle;
 
     private Socket mSocket;
     {
@@ -89,6 +97,7 @@ public class FunnyFeed extends AppCompatActivity {
         Resources res = getResources();
 
         ListView listView = (ListView) findViewById(R.id.listViewFunny);
+        likeToggle = (ToggleButton) findViewById(R.id.liketoggle);
 
         posts = new ArrayList<Post>();
         adapter = new FunnyAdapter(this,posts);
@@ -200,9 +209,9 @@ class FunnyAdapter extends ArrayAdapter<Post>
     String[] titles;
     String[] descriptions;
 
-    //funnyfeed like button
-    Button funnyFeedLike;
     Button funnyFeedComment;
+
+    ToggleButton likeToggle;
 
     public FunnyAdapter(Context c, ArrayList<Post> posts)
     {
@@ -216,21 +225,241 @@ class FunnyAdapter extends ArrayAdapter<Post>
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.single_row_funny, parent, false);
         }
-        ImageView imageview = (ImageView) convertView.findViewById(R.id.imageView2);
-        TextView username = (TextView) convertView.findViewById(R.id.textView4);
-        TextView likes = (TextView)convertView.findViewById(R.id.textView6);
+        ImageView imageview = (ImageView) convertView.findViewById(R.id.imageViewFeed);
+        TextView username = (TextView) convertView.findViewById(R.id.txtName);
+        TextView description = (TextView) convertView.findViewById(R.id.txtDescription);
+        final TextView likes = (TextView)convertView.findViewById(R.id.txtLikesFeed);
 
-        funnyFeedLike = (Button) convertView.findViewById(R.id.funnyFeedLike);
         funnyFeedComment = (Button) convertView.findViewById(R.id.funnyFeedComment);
-        try {
-            funnyFeedLike.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    RelativeLayout rl = (RelativeLayout) view.getParent();
-                    Log.d("Button click", String.valueOf(postI._id));
-                    funnyFeedLike.setBackgroundResource(R.drawable.filledheart);
+
+        likeToggle = (ToggleButton) convertView.findViewById(R.id.liketoggle);
+
+        likeToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean likeStatus) {
+                AsyncHttpClient client = new AsyncHttpClient();
+                Log.d("Toogle state", String.valueOf(likeStatus));
+                if(likeStatus) {
+                    RequestParams params = new RequestParams();
+                    params.put("postid", String.valueOf(postI._id));
+                    params.put("username", "tiffany");
+
+                        params.setForceMultipartEntityContentType(true);
+
+                        client.post("https://hidden-shore-36246.herokuapp.com/api/post/like", params ,new ResponseHandlerInterface() {
+                            @Override
+                            public void sendResponseMessage(HttpResponse response) throws IOException {
+
+                            }
+
+                            @Override
+                            public void sendStartMessage() {
+
+                            }
+
+                            @Override
+                            public void sendFinishMessage() {
+
+                            }
+
+                            @Override
+                            public void sendProgressMessage(long bytesWritten, long bytesTotal) {
+
+                            }
+
+                            @Override
+                            public void sendCancelMessage() {
+
+                            }
+
+                            @Override
+                            public void sendSuccessMessage(int statusCode, Header[] headers, byte[] responseBody) {
+                                Log.d("LIKE response", "WOhoooo");
+                            }
+
+                            @Override
+                            public void sendFailureMessage(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                            }
+
+                            @Override
+                            public void sendRetryMessage(int retryNo) {
+
+                            }
+
+                            @Override
+                            public URI getRequestURI() {
+                                return null;
+                            }
+
+                            @Override
+                            public void setRequestURI(URI requestURI) {
+
+                            }
+
+                            @Override
+                            public Header[] getRequestHeaders() {
+                                return new Header[0];
+                            }
+
+                            @Override
+                            public void setRequestHeaders(Header[] requestHeaders) {
+
+                            }
+
+                            @Override
+                            public boolean getUseSynchronousMode() {
+                                return false;
+                            }
+
+                            @Override
+                            public void setUseSynchronousMode(boolean useSynchronousMode) {
+
+                            }
+
+                            @Override
+                            public boolean getUsePoolThread() {
+                                return false;
+                            }
+
+                            @Override
+                            public void setUsePoolThread(boolean usePoolThread) {
+
+                            }
+
+                            @Override
+                            public void onPreProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
+
+                            }
+
+                            @Override
+                            public void onPostProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
+
+                            }
+
+                            @Override
+                            public Object getTag() {
+                                return null;
+                            }
+
+                            @Override
+                            public void setTag(Object TAG) {
+
+                            }
+                        });
+                } else {
+                    RequestParams params = new RequestParams();
+                    params.put("postid", String.valueOf(postI._id));
+                    params.put("username", "tiffany");
+
+                    params.setForceMultipartEntityContentType(true);
+
+                    client.post("https://hidden-shore-36246.herokuapp.com/api/post/unlike", params ,new ResponseHandlerInterface() {
+                        @Override
+                        public void sendResponseMessage(HttpResponse response) throws IOException {
+
+                        }
+
+                        @Override
+                        public void sendStartMessage() {
+
+                        }
+
+                        @Override
+                        public void sendFinishMessage() {
+
+                        }
+
+                        @Override
+                        public void sendProgressMessage(long bytesWritten, long bytesTotal) {
+
+                        }
+
+                        @Override
+                        public void sendCancelMessage() {
+
+                        }
+
+                        @Override
+                        public void sendSuccessMessage(int statusCode, Header[] headers, byte[] responseBody) {
+                            Log.d("LIKE response", "WOhoooo");
+                        }
+
+                        @Override
+                        public void sendFailureMessage(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                        }
+
+                        @Override
+                        public void sendRetryMessage(int retryNo) {
+
+                        }
+
+                        @Override
+                        public URI getRequestURI() {
+                            return null;
+                        }
+
+                        @Override
+                        public void setRequestURI(URI requestURI) {
+
+                        }
+
+                        @Override
+                        public Header[] getRequestHeaders() {
+                            return new Header[0];
+                        }
+
+                        @Override
+                        public void setRequestHeaders(Header[] requestHeaders) {
+
+                        }
+
+                        @Override
+                        public boolean getUseSynchronousMode() {
+                            return false;
+                        }
+
+                        @Override
+                        public void setUseSynchronousMode(boolean useSynchronousMode) {
+
+                        }
+
+                        @Override
+                        public boolean getUsePoolThread() {
+                            return false;
+                        }
+
+                        @Override
+                        public void setUsePoolThread(boolean usePoolThread) {
+
+                        }
+
+                        @Override
+                        public void onPreProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
+
+                        }
+
+                        @Override
+                        public void onPostProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
+
+                        }
+
+                        @Override
+                        public Object getTag() {
+                            return null;
+                        }
+
+                        @Override
+                        public void setTag(Object TAG) {
+
+                        }
+                    });
                 }
-            });
+            }
+        });
+
+        try {
 
             funnyFeedComment.setOnClickListener(new View.OnClickListener() {
 
@@ -247,6 +476,9 @@ class FunnyAdapter extends ArrayAdapter<Post>
             Log.d("Exception: ", e.getStackTrace().toString());
         }
         username.setText(post.username);
+        description.setText(post.description);
+        likes.setText(post.likes);
+
         Animation fadeInAnimation = new AlphaAnimation(0, 1);
         fadeInAnimation.setInterpolator(new DecelerateInterpolator()); //add this
         fadeInAnimation.setDuration(1000);
