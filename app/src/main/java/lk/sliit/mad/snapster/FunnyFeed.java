@@ -144,7 +144,12 @@ public class FunnyFeed extends AppCompatActivity {
 //            }
 //        });
 
-        client.get("https://hidden-shore-36246.herokuapp.com/api/feed/funny", null, new JsonHttpResponseHandler() {
+        RequestParams params = new RequestParams();
+        params.put("username", "tiffany");
+
+        //params.setForceMultipartEntityContentType(true);
+
+        client.get("https://hidden-shore-36246.herokuapp.com/api/feed/funny", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // If the response is JSONObject instead of expected JSONArray
@@ -187,6 +192,7 @@ class Post {
     String username;
     String image;
     String description;
+    boolean likestate;
     int likes;
 
     public Post(JSONObject object) {
@@ -195,6 +201,7 @@ class Post {
             this.username = object.getString("username");
             this.image = object.getString("image");
             this.description = object.getString("description");
+            this.likestate = object.getBoolean("likestate");
             this.likes = object.getInt("likes");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -478,6 +485,13 @@ class FunnyAdapter extends ArrayAdapter<Post>
         username.setText(post.username);
         description.setText(post.description);
         likes.setText(post.likes);
+
+        if(post.likestate) {
+            likeToggle.setChecked(true);
+        }
+        else {
+            likeToggle.setChecked(false);
+        }
 
         Animation fadeInAnimation = new AlphaAnimation(0, 1);
         fadeInAnimation.setInterpolator(new DecelerateInterpolator()); //add this
