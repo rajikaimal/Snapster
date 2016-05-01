@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Text;
+
+import cz.msebera.android.httpclient.Header;
 
 public class Categories extends AppCompatActivity {
     String [] titles;
@@ -86,7 +89,7 @@ class SnapAdapter extends ArrayAdapter<String>
     String[] descriptions;
     SnapAdapter(Context c, String[] titles, int imgs[], String[] descriptions)
     {
-        super(c, R.layout.single_row, R.id.textView, titles);
+        super(c, R.layout.single_row, R.id.textView2, titles);
         this.context = c;
         this.images = imgs;
         this.titles = titles;

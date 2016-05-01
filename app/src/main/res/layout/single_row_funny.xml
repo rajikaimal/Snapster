@@ -33,26 +33,16 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="2dp" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:hint="comment"
-        android:layout_marginTop="106dp"
-        android:layout_below="@+id/imageView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="11 likes"
         android:id="@+id/textView6"
-        android:layout_alignBottom="@+id/editText"
+        android:layout_below="@+id/imageView2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="42dp" />
+        android:layout_marginTop="5dp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -61,6 +51,29 @@
         android:layout_alignTop="@+id/textView6"
         android:layout_toRightOf="@+id/textView6"
         android:layout_toEndOf="@+id/textView6"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:adjustViewBounds="true"
          />
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/broken_heart"
+        android:id="@+id/funnyFeedLike"
+        android:focusable="true"
+        android:layout_below="@+id/textView6"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="22dp" />
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/camera"
+        android:id="@+id/funnyFeedComment"
+        android:layout_alignTop="@+id/funnyFeedLike"
+        android:layout_toRightOf="@+id/textView6"
+        android:layout_toEndOf="@+id/textView6" />
 
 </RelativeLayout>

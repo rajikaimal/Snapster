@@ -33,8 +33,8 @@ public class FunnyHOF extends AppCompatActivity {
         //link listview
         ListView listView = (ListView) findViewById(R.id.funnyHOFlistVIew);
 
-        FunnyAdapter adapter = new FunnyAdapter(this, titles, images, descriptions);
-        listView.setAdapter(adapter);
+        //FunnyAdapter adapter = new FunnyAdapter(this, titles, images, descriptions);
+        //listView.setAdapter(adapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

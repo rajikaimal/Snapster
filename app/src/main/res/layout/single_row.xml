@@ -8,6 +8,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

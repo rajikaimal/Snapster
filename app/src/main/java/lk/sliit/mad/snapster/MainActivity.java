@@ -67,7 +67,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     data[0] = me.optString("name");
                                     data[1] = me.optString("id");
                                     data[2] = me.optString("email");
-                                    data[3] = me.optString("firstName");
+                                    data[3] = me.optString("username");
+                                    Log.d(me.toString(),me.toString());
+                                    Log.d("hy","hy");
                                     // send email and id to your web server
                                 }
                             }
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent cameraIntent = new Intent("android.media.action.IMAGE_CAPTURE");
+                Intent cameraIntent = new Intent(getApplicationContext(),CameraActivity.class);
                 startActivity(cameraIntent);
             }
         });
