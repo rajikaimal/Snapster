@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,6 +29,8 @@ import com.facebook.login.widget.LoginButton;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+
+import lk.sliit.mad.snapster.Fragment.EffectsFilterFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -68,8 +71,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     data[1] = me.optString("id");
                                     data[2] = me.optString("email");
                                     data[3] = me.optString("username");
-                                    Log.d(me.toString(),me.toString());
-                                    Log.d("hy","hy");
+                                    Log.d(me.toString(), me.toString());
+                                    Log.d("hy", "hy");
                                     // send email and id to your web server
                                 }
                             }
@@ -94,10 +97,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent cameraIntent = new Intent(getApplicationContext(),CameraActivity.class);
+                Intent cameraIntent = new Intent(getApplicationContext(), CameraActivity.class);
                 startActivity(cameraIntent);
             }
         });
+
+
     }
 
     private void displayFBUserMessage() {
@@ -106,7 +111,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String message;
         if (profile != null) {
             Log.d(TAG, "current profile is active");
-            message = "Hello there " + profile.getName() + "!";
+            message = "Hello there " +  profile.getFirstName() + "!";
+
         } else {
             Log.e(TAG, "current profile is null");
             message = "I'm sorry, you aren't logged in.";
@@ -126,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d(TAG, "current profile is active");
             message[0] = profile.getName();
             message[1]=profile.getId();
+            
 
         } else {
             Log.e(TAG, "current profile is null");
@@ -195,4 +202,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent i = new Intent(MainActivity.this, Categories.class);
         this.startActivity(i);
     }
+
 }

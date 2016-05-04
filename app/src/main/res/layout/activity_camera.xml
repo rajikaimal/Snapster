@@ -33,11 +33,20 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:id="@+id/imgProfile"
         android:padding="2dp"
         android:background="@android:color/background_light"
-        android:layout_centerInParent="true" />
+        android:layout_below="@+id/linear"
+        android:layout_centerHorizontal="true" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/imgProfile"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/main_fragment"></FrameLayout>
 
 </RelativeLayout>

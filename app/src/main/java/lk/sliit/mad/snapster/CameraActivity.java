@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -42,6 +43,7 @@ import cz.msebera.android.httpclient.entity.mime.MultipartEntityBuilder;
 import cz.msebera.android.httpclient.entity.mime.content.FileBody;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import cz.msebera.android.httpclient.util.EntityUtils;
+import lk.sliit.mad.snapster.Fragment.EffectsFilterFragment;
 
 public class CameraActivity extends AppCompatActivity {
     ImageView img;
@@ -65,6 +67,8 @@ public class CameraActivity extends AppCompatActivity {
         btnGallery = (Button) choosePhoto.findViewById(R.id.btnSelectFromGallery);
         btnCamera = (Button) choosePhoto.findViewById(R.id.btnCamera);
         btnCancel = (Button) choosePhoto.findViewById(R.id.btnCancel);
+
+        changeFragment(new EffectsFilterFragment());
 
         btnSelect.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -248,4 +252,11 @@ public class CameraActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void changeFragment(Fragment targetFragment) {
+        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_fragment, targetFragment);
+        transaction.commit();
+    }
+
 }
