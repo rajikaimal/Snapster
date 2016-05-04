@@ -54,7 +54,10 @@
             android:name=".profile_settings"
             android:label="@string/title_activity_profile_settings"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Comment" android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".Comment"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".Challenge"></activity>
     </application>
 
 </manifest>

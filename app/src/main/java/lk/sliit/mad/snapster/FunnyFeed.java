@@ -3,6 +3,7 @@ package lk.sliit.mad.snapster;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.koushikdutta.ion.Ion;
@@ -241,119 +243,126 @@ class FunnyAdapter extends ArrayAdapter<Post>
 
         likeToggle = (ToggleButton) convertView.findViewById(R.id.liketoggle);
 
-        likeToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        if(post.likestate) {
+            likeToggle.setChecked(true);
+        }
+        else {
+            likeToggle.setChecked(false);
+        }
+
+        likeToggle.setOnClickListener(new CompoundButton.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean likeStatus) {
+            public void onClick(View view) {
                 AsyncHttpClient client = new AsyncHttpClient();
-                Log.d("Toogle state", String.valueOf(likeStatus));
-                if(likeStatus) {
+
+                if(likeToggle.isChecked()) {
                     RequestParams params = new RequestParams();
                     params.put("postid", String.valueOf(postI._id));
                     params.put("username", "tiffany");
 
-                        params.setForceMultipartEntityContentType(true);
+                    params.setForceMultipartEntityContentType(true);
 
-                        client.post("https://hidden-shore-36246.herokuapp.com/api/post/like", params ,new ResponseHandlerInterface() {
-                            @Override
-                            public void sendResponseMessage(HttpResponse response) throws IOException {
+                    client.post("https://hidden-shore-36246.herokuapp.com/api/post/like", params ,new ResponseHandlerInterface() {
+                        @Override
+                        public void sendResponseMessage(HttpResponse response) throws IOException {
 
-                            }
+                        }
 
-                            @Override
-                            public void sendStartMessage() {
+                        @Override
+                        public void sendStartMessage() {
 
-                            }
+                        }
 
-                            @Override
-                            public void sendFinishMessage() {
+                        @Override
+                        public void sendFinishMessage() {
 
-                            }
+                        }
 
-                            @Override
-                            public void sendProgressMessage(long bytesWritten, long bytesTotal) {
+                        @Override
+                        public void sendProgressMessage(long bytesWritten, long bytesTotal) {
 
-                            }
+                        }
 
-                            @Override
-                            public void sendCancelMessage() {
+                        @Override
+                        public void sendCancelMessage() {
 
-                            }
+                        }
 
-                            @Override
-                            public void sendSuccessMessage(int statusCode, Header[] headers, byte[] responseBody) {
-                                Log.d("LIKE response", "WOhoooo");
-                            }
+                        @Override
+                        public void sendSuccessMessage(int statusCode, Header[] headers, byte[] responseBody) {
+                            Log.d("LIKE response", "WOhoooo");
+                        }
 
-                            @Override
-                            public void sendFailureMessage(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        @Override
+                        public void sendFailureMessage(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
-                            }
+                        }
 
-                            @Override
-                            public void sendRetryMessage(int retryNo) {
+                        @Override
+                        public void sendRetryMessage(int retryNo) {
 
-                            }
+                        }
 
-                            @Override
-                            public URI getRequestURI() {
-                                return null;
-                            }
+                        @Override
+                        public URI getRequestURI() {
+                            return null;
+                        }
 
-                            @Override
-                            public void setRequestURI(URI requestURI) {
+                        @Override
+                        public void setRequestURI(URI requestURI) {
 
-                            }
+                        }
 
-                            @Override
-                            public Header[] getRequestHeaders() {
-                                return new Header[0];
-                            }
+                        @Override
+                        public Header[] getRequestHeaders() {
+                            return new Header[0];
+                        }
 
-                            @Override
-                            public void setRequestHeaders(Header[] requestHeaders) {
+                        @Override
+                        public void setRequestHeaders(Header[] requestHeaders) {
 
-                            }
+                        }
 
-                            @Override
-                            public boolean getUseSynchronousMode() {
-                                return false;
-                            }
+                        @Override
+                        public boolean getUseSynchronousMode() {
+                            return false;
+                        }
 
-                            @Override
-                            public void setUseSynchronousMode(boolean useSynchronousMode) {
+                        @Override
+                        public void setUseSynchronousMode(boolean useSynchronousMode) {
 
-                            }
+                        }
 
-                            @Override
-                            public boolean getUsePoolThread() {
-                                return false;
-                            }
+                        @Override
+                        public boolean getUsePoolThread() {
+                            return false;
+                        }
 
-                            @Override
-                            public void setUsePoolThread(boolean usePoolThread) {
+                        @Override
+                        public void setUsePoolThread(boolean usePoolThread) {
 
-                            }
+                        }
 
-                            @Override
-                            public void onPreProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
+                        @Override
+                        public void onPreProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
 
-                            }
+                        }
 
-                            @Override
-                            public void onPostProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
+                        @Override
+                        public void onPostProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
 
-                            }
+                        }
 
-                            @Override
-                            public Object getTag() {
-                                return null;
-                            }
+                        @Override
+                        public Object getTag() {
+                            return null;
+                        }
 
-                            @Override
-                            public void setTag(Object TAG) {
+                        @Override
+                        public void setTag(Object TAG) {
 
-                            }
-                        });
+                        }
+                    });
                 } else {
                     RequestParams params = new RequestParams();
                     params.put("postid", String.valueOf(postI._id));
@@ -486,22 +495,37 @@ class FunnyAdapter extends ArrayAdapter<Post>
         description.setText(post.description);
         likes.setText(post.likes);
 
-        if(post.likestate) {
-            likeToggle.setChecked(true);
-        }
-        else {
-            likeToggle.setChecked(false);
-        }
+
 
         Animation fadeInAnimation = new AlphaAnimation(0, 1);
         fadeInAnimation.setInterpolator(new DecelerateInterpolator()); //add this
         fadeInAnimation.setDuration(1000);
         Ion.with(imageview)
-                .placeholder(R.drawable.broken_heart)
-                .error(R.drawable.yuri)
+                .error(R.drawable.camera)
                 .animateIn(fadeInAnimation)
                 .load("http://res.cloudinary.com/rajikaimal/image/upload/" + post.image);
         likes.setText(post.likes + " likes");
+
+        final String PostId = post._id;
+        final String Challenger = "Tiffany";
+        final String Challengee = post.username;
+        final String imgUrl = post.image;
+
+        imageview.buildDrawingCache();
+        final Bitmap imgBitMap = imageview.getDrawingCache();
+        imageview.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent challenge = new Intent(getContext(), Challenge.class);
+                challenge.putExtra("PostId", PostId);
+                challenge.putExtra("Challenger", Challenger);
+                challenge.putExtra("Challengee", Challengee);
+                challenge.putExtra("url", imgUrl);
+                //challenge.putExtra("Image", imgBitMap);
+                getContext().startActivity(challenge);
+                return false;
+            }
+        });
         return convertView;
     }
 }
