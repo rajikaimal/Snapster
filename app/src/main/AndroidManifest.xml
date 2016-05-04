@@ -61,6 +61,9 @@
             android:name=".CameraActivity"
             android:label="@string/title_activity_camera"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".Challenge"></activity>
+
     </application>
 
 </manifest>
