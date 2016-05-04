@@ -471,6 +471,7 @@ class FunnyAdapter extends ArrayAdapter<Post>
 
                         }
                     });
+                    
                 }
             }
         });

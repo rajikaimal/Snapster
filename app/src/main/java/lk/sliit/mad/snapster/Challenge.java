@@ -21,8 +21,12 @@ public class Challenge extends AppCompatActivity {
     TextView txtChallenger;
     TextView txtChallengee;
     ImageView postImage, challengeImage;
+    Button btnTakeSelfie;
 
-    Button btnTakeSelfie, btnChallenge;
+    String PostId;
+    String Challenger;
+    String Challengee;
+    String challengerimgUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +37,14 @@ public class Challenge extends AppCompatActivity {
         txtChallenger = (TextView) findViewById(R.id.txtChallenger);
         postImage = (ImageView) findViewById(R.id.imgViewChallenge);
         challengeImage = (ImageView) findViewById(R.id.imgViewChallengePhoto);
-        btnChallenge = (Button) findViewById(R.id.btnChallenge);
+        btnTakeSelfie = (Button) findViewById(R.id.btnSelfie);
         challengeImage.setImageResource(R.drawable.tiffany);
 
         Intent Challenge = getIntent();
-        String PostId = Challenge.getStringExtra("PostId");
-        String Challenger = Challenge.getStringExtra("Challenger");
-        String Challengee = Challenge.getStringExtra("Challengee");
-        String imgUrl = Challenge.getStringExtra("url");
+        PostId = Challenge.getStringExtra("PostId");
+        Challenger = Challenge.getStringExtra("Challenger");
+        Challengee = Challenge.getStringExtra("Challengee");
+        challengerimgUrl = Challenge.getStringExtra("url");
 
         txtChallengee.setText(Challengee);
         txtChallenger.setText(Challenger);
@@ -51,11 +55,18 @@ public class Challenge extends AppCompatActivity {
         Ion.with(postImage)
                 .error(R.drawable.camera)
                 .animateIn(fadeInAnimation)
-                .load("http://res.cloudinary.com/rajikaimal/image/upload/" + imgUrl);
+                .load("http://res.cloudinary.com/rajikaimal/image/upload/" + challengerimgUrl);
 
-        btnChallenge.setOnClickListener(new View.OnClickListener() {
+        btnTakeSelfie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent challengeSummary = new Intent(getBaseContext(), ChallengeSummary.class);
+                challengeSummary.putExtra("PostId", PostId);
+                challengeSummary.putExtra("Challenger", Challenger);
+                challengeSummary.putExtra("Challengee", Challengee);
+                challengeSummary.putExtra("url", challengerimgUrl);
+
+                startActivity(challengeSummary);
 
             }
         });
