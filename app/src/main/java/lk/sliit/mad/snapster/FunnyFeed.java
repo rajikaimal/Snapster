@@ -257,7 +257,7 @@ class FunnyAdapter extends ArrayAdapter<Post>
             @Override
             public void onClick(View view) {
                 Intent challengeSummary = new Intent(getContext(), ChallengeSummary.class);
-                challengeSummary.putExtra("postid", String.valueOf(postI));
+                challengeSummary.putExtra("postid", String.valueOf(postI._id));
                 challengeSummary.putExtra("imgUrl", post.image);
                 challengeSummary.putExtra("username", "tiffany");
 

@@ -14,24 +14,14 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="20dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/txtDescriptionChallenge"
-        android:layout_below="@+id/txtNameChallenge"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/imageViewFeedChallenge"
-        android:layout_below="@+id/txtDescriptionChallenge"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="2dp" />
+        android:layout_marginTop="2dp"
+        android:layout_below="@+id/txtNameChallenge" />
 
     <TextView
         android:layout_width="wrap_content"

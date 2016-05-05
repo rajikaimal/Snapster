@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -73,6 +74,13 @@ public class ChallengeSummary extends AppCompatActivity {
         Resources res = getResources();
 
         ListView listView = (ListView) findViewById(R.id.challengersList);
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                view.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
         likeToggle = (ToggleButton) findViewById(R.id.liketoggle);
 
         posts = new ArrayList<ChallengePost>();
@@ -83,7 +91,7 @@ public class ChallengeSummary extends AppCompatActivity {
         Intent i = getIntent();
         String postId = i.getStringExtra("postid");
         String imgUrl = i.getStringExtra("imgUrl");
-
+        Log.d("PostId !", postId);
         ImageView challengeeImage = (ImageView) findViewById(R.id.imgViewChallengee);
 
         Animation fadeInAnimation = new AlphaAnimation(0, 1);
@@ -95,8 +103,8 @@ public class ChallengeSummary extends AppCompatActivity {
                 .load("http://res.cloudinary.com/rajikaimal/image/upload/" + imgUrl);
 
         RequestParams params = new RequestParams();
-        //params.put("postid", postId);
-        params.put("username", "tiffany");
+        params.put("postid", postId);
+
         //params.setForceMultipartEntityContentType(true);
 
         client.get("https://hidden-shore-36246.herokuapp.com/api/challenge/post", params, new JsonHttpResponseHandler() {
@@ -133,16 +141,15 @@ class ChallengePost {
     String _id;
     String username;
     String image;
-    String description;
+
     boolean likestate;
     int likes;
 
     public ChallengePost(JSONObject object) {
         try {
             this._id = object.getString("_id");
-            this.username = object.getString("username");
-            this.image = object.getString("image");
-            this.description = object.getString("description");
+            this.username = object.getString("challenger");
+            this.image = object.getString("challengerUrl");
             this.likestate = object.getBoolean("likestate");
             this.likes = object.getInt("likes");
         } catch (JSONException e) {
@@ -154,10 +161,6 @@ class ChallengePost {
 class ChallengeAdapter extends ArrayAdapter<ChallengePost>
 {
     Context context;
-    int images[];
-    String[] titles;
-    String[] descriptions;
-
     Button funnyFeedComment;
 
     ToggleButton likeToggle;
@@ -176,7 +179,6 @@ class ChallengeAdapter extends ArrayAdapter<ChallengePost>
         }
         ImageView imageview = (ImageView) convertView.findViewById(R.id.imageViewFeedChallenge);
         TextView username = (TextView) convertView.findViewById(R.id.txtNameChallenge);
-        TextView description = (TextView) convertView.findViewById(R.id.txtDescriptionChallenge);
         final TextView likes = (TextView)convertView.findViewById(R.id.txtLikesFeedChallenge);
 
         funnyFeedComment = (Button) convertView.findViewById(R.id.funnyFeedCommentChallenge);
@@ -433,7 +435,6 @@ class ChallengeAdapter extends ArrayAdapter<ChallengePost>
             Log.d("Exception: ", e.getStackTrace().toString());
         }
         username.setText(post.username);
-        description.setText(post.description);
         likes.setText(post.likes);
 
 
@@ -453,21 +454,8 @@ class ChallengeAdapter extends ArrayAdapter<ChallengePost>
         final String Challengee = post.username;
         final String imgUrl = post.image;
 
-        imageview.buildDrawingCache();
-        final Bitmap imgBitMap = imageview.getDrawingCache();
-        imageview.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Intent challenge = new Intent(getContext(), Challenge.class);
-                challenge.putExtra("PostId", PostId);
-                challenge.putExtra("Challenger", Challenger);
-                challenge.putExtra("Challengee", Challengee);
-                challenge.putExtra("url", imgUrl);
-                //challenge.putExtra("Image", imgBitMap);
-                getContext().startActivity(challenge);
-                return false;
-            }
-        });
+
+
         return convertView;
     }
 }
