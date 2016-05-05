@@ -18,6 +18,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -229,7 +230,7 @@ class FunnyAdapter extends ArrayAdapter<Post>
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Post post = getItem(position);
+        final Post post = getItem(position);
         final Post postI  = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.single_row_funny, parent, false);
@@ -237,6 +238,8 @@ class FunnyAdapter extends ArrayAdapter<Post>
         ImageView imageview = (ImageView) convertView.findViewById(R.id.imageViewFeed);
         TextView username = (TextView) convertView.findViewById(R.id.txtName);
         TextView description = (TextView) convertView.findViewById(R.id.txtDescription);
+        ImageButton trophy = (ImageButton) convertView.findViewById(R.id.imgTrophy);
+
         final TextView likes = (TextView)convertView.findViewById(R.id.txtLikesFeed);
 
         funnyFeedComment = (Button) convertView.findViewById(R.id.funnyFeedComment);
@@ -249,6 +252,18 @@ class FunnyAdapter extends ArrayAdapter<Post>
         else {
             likeToggle.setChecked(false);
         }
+
+        trophy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent challengeSummary = new Intent(getContext(), ChallengeSummary.class);
+                challengeSummary.putExtra("postid", String.valueOf(postI));
+                challengeSummary.putExtra("imgUrl", post.image);
+                challengeSummary.putExtra("username", "tiffany");
+
+                getContext().startActivity(challengeSummary);
+            }
+        });
 
         likeToggle.setOnClickListener(new CompoundButton.OnClickListener() {
             @Override
@@ -502,6 +517,7 @@ class FunnyAdapter extends ArrayAdapter<Post>
         fadeInAnimation.setInterpolator(new DecelerateInterpolator()); //add this
         fadeInAnimation.setDuration(1000);
         Ion.with(imageview)
+                .placeholder(R.drawable.yuri)
                 .error(R.drawable.camera)
                 .animateIn(fadeInAnimation)
                 .load("http://res.cloudinary.com/rajikaimal/image/upload/" + post.image);
