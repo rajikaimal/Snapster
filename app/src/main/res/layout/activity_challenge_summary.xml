@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Challenge"
+        android:text="Challengers"
         android:id="@+id/txtChallenge"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -24,50 +24,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/txtChallengerSum"
-        android:layout_below="@+id/txtChallenge"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Vs"
-        android:id="@+id/txtVsSum"
-        android:layout_alignTop="@+id/txtChallengerSum"
-        android:layout_toRightOf="@+id/txtChallengerSum"
-        android:layout_toEndOf="@+id/txtChallengerSum"
-        android:layout_marginLeft="33dp"
-        android:layout_marginStart="33dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/txtChallengeeSum"
         android:layout_below="@+id/txtChallenge"
-        android:layout_toRightOf="@+id/txtVsSum"
-        android:layout_toEndOf="@+id/txtVsSum"
-        android:layout_marginLeft="21dp"
-        android:layout_marginStart="21dp" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
-        android:layout_below="@+id/txtChallengerSum"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="43dp"
-        android:src="@drawable/tiffany" />
+        android:layout_alignRight="@+id/imgViewChallengee"
+        android:layout_alignEnd="@+id/imgViewChallengee" />
 
-    <Button
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgViewChallengee"
+        android:layout_below="@+id/txtChallenge" />
+
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Challenge"
-        android:id="@+id/btnChallenge"
-        android:layout_alignBottom="@+id/imageView2"
-        android:layout_toRightOf="@+id/txtChallengerSum"
-        android:layout_toEndOf="@+id/txtChallengerSum" />
+        android:id="@+id/challengersList"
+        android:layout_below="@+id/txtChallengeeSum"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="39dp" />
+
 </RelativeLayout>
