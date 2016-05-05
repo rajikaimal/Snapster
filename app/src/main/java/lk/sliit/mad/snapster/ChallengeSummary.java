@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.os.Bundle;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,72 +20,43 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.koushikdutta.ion.Ion;
-import com.loopj.android.http.*;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.ResponseHandlerInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpResponse;
-import cz.msebera.android.httpclient.entity.ByteArrayEntity;
-import cz.msebera.android.httpclient.entity.StringEntity;
-import cz.msebera.android.httpclient.message.BasicHeader;
-import cz.msebera.android.httpclient.protocol.HTTP;
+import cz.msebera.android.httpclient.entity.mime.MultipartEntityBuilder;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-public class FunnyFeed extends AppCompatActivity {
-    String [] titles;
-    String [] descriptions;
-    int[] images = {R.drawable.kendall, R.drawable.yuri, R.drawable.tiffany, R.drawable.jessica};
-
-    ArrayList<Post> posts;
-    FunnyAdapter adapter;
+public class ChallengeSummary extends AppCompatActivity {
+    ArrayList<ChallengePost> posts;
+    ChallengeAdapter adapter;
 
     ToggleButton likeToggle;
-
-    private Socket mSocket;
-    {
-        try {
-            mSocket = IO.socket("https://hidden-shore-36246.herokuapp.com");
-        } catch (URISyntaxException e) {}
-    }
-
-
-    private Emitter.Listener onNewPost = new Emitter.Listener() {
-
-
-        @Override
-        public void call(Object... args) {
-            Log.d("socket", "socket call");
-            JSONObject data = (JSONObject) args[0];
-            try {
-                Post newPost = new Post(data);
-                setPostData(newPost, adapter);
-                //message = data.getString("message");
-            } catch (Exception e) {
-                return;
-            }
-
-        }
-    };
 
     public void setPostData(Post newPost, FunnyAdapter adapter) {
         adapter.add(newPost);
@@ -93,66 +66,40 @@ public class FunnyFeed extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_funny_feed);
+        setContentView(R.layout.activity_challenge_summary);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
 
         Resources res = getResources();
 
-        ListView listView = (ListView) findViewById(R.id.listViewFunny);
+        ListView listView = (ListView) findViewById(R.id.challengersList);
         likeToggle = (ToggleButton) findViewById(R.id.liketoggle);
 
-        posts = new ArrayList<Post>();
-        adapter = new FunnyAdapter(this,posts);
+        posts = new ArrayList<ChallengePost>();
+        adapter = new ChallengeAdapter(getBaseContext(), posts);
         listView.setAdapter(adapter);
 
-
-//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                String id = (String) adapterView.getItemAtPosition(i);
-//                Log.d("Item ", id);
-//                return false;
-//            }
-//        });
-
-        mSocket.emit("funnyfeedpost", "My message");
-        Log.d("socket", "sent post !!");
-        mSocket.on("newfunnypost", onNewPost);
-        mSocket.connect();
-
-
         AsyncHttpClient client = new AsyncHttpClient();
+        Intent i = getIntent();
+        String postId = i.getStringExtra("postid");
+        String imgUrl = i.getStringExtra("imgUrl");
 
-//        client.get("https://hidden-shore-36246.herokuapp.com/api/feed/funny", new AsyncHttpResponseHandler() {
-//
-//            @Override
-//            public void onStart() {
-//                // called before request is started
-//            }
-//
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-//                Log.d("HTtp response", response.toString());
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-//                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-//            }
-//
-//            @Override
-//            public void onRetry(int retryNo) {
-//                // called when request is retried
-//            }
-//        });
+        ImageView challengeeImage = (ImageView) findViewById(R.id.imgViewChallengee);
+
+        Animation fadeInAnimation = new AlphaAnimation(0, 1);
+        fadeInAnimation.setInterpolator(new DecelerateInterpolator()); //add this
+        fadeInAnimation.setDuration(1000);
+        Ion.with(challengeeImage)
+                .error(R.drawable.camera)
+                .animateIn(fadeInAnimation)
+                .load("http://res.cloudinary.com/rajikaimal/image/upload/" + imgUrl);
 
         RequestParams params = new RequestParams();
+        //params.put("postid", postId);
         params.put("username", "tiffany");
-
         //params.setForceMultipartEntityContentType(true);
 
-        client.get("https://hidden-shore-36246.herokuapp.com/api/feed/funny", params, new JsonHttpResponseHandler() {
+        client.get("https://hidden-shore-36246.herokuapp.com/api/challenge/post", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // If the response is JSONObject instead of expected JSONArray
@@ -165,7 +112,7 @@ public class FunnyFeed extends AppCompatActivity {
                     try {
                         JSONObject obj = timeline.getJSONObject(i);
 
-                        Post newPost = new Post(obj);
+                        ChallengePost newPost = new ChallengePost(obj);
                         adapter.add(newPost);
                         adapter.notifyDataSetInvalidated();
                     } catch (JSONException e) {
@@ -177,20 +124,12 @@ public class FunnyFeed extends AppCompatActivity {
                 Log.d("Request", "Done .. setting up now ....");
             }
         });
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent funnyHOF = new Intent(getBaseContext(), FunnyHOF.class);
-                startActivity(funnyHOF);
-            }
-        });
     }
-
 }
 
-class Post {
+
+
+class ChallengePost {
     String _id;
     String username;
     String image;
@@ -198,7 +137,7 @@ class Post {
     boolean likestate;
     int likes;
 
-    public Post(JSONObject object) {
+    public ChallengePost(JSONObject object) {
         try {
             this._id = object.getString("_id");
             this.username = object.getString("username");
@@ -212,7 +151,7 @@ class Post {
     }
 }
 
-class FunnyAdapter extends ArrayAdapter<Post>
+class ChallengeAdapter extends ArrayAdapter<ChallengePost>
 {
     Context context;
     int images[];
@@ -223,28 +162,26 @@ class FunnyAdapter extends ArrayAdapter<Post>
 
     ToggleButton likeToggle;
 
-    public FunnyAdapter(Context c, ArrayList<Post> posts)
+    public ChallengeAdapter(Context c, ArrayList<ChallengePost> posts)
     {
         super(c, 0, posts);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final Post post = getItem(position);
-        final Post postI  = getItem(position);
+        ChallengePost post = getItem(position);
+        final ChallengePost postI  = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.single_row_funny, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.challenge_row, parent, false);
         }
-        ImageView imageview = (ImageView) convertView.findViewById(R.id.imageViewFeed);
-        TextView username = (TextView) convertView.findViewById(R.id.txtName);
-        TextView description = (TextView) convertView.findViewById(R.id.txtDescription);
-        ImageButton trophy = (ImageButton) convertView.findViewById(R.id.imgTrophy);
+        ImageView imageview = (ImageView) convertView.findViewById(R.id.imageViewFeedChallenge);
+        TextView username = (TextView) convertView.findViewById(R.id.txtNameChallenge);
+        TextView description = (TextView) convertView.findViewById(R.id.txtDescriptionChallenge);
+        final TextView likes = (TextView)convertView.findViewById(R.id.txtLikesFeedChallenge);
 
-        final TextView likes = (TextView)convertView.findViewById(R.id.txtLikesFeed);
+        funnyFeedComment = (Button) convertView.findViewById(R.id.funnyFeedCommentChallenge);
 
-        funnyFeedComment = (Button) convertView.findViewById(R.id.funnyFeedComment);
-
-        likeToggle = (ToggleButton) convertView.findViewById(R.id.liketoggle);
+        likeToggle = (ToggleButton) convertView.findViewById(R.id.liketoggleChallenge);
 
         if(post.likestate) {
             likeToggle.setChecked(true);
@@ -252,18 +189,6 @@ class FunnyAdapter extends ArrayAdapter<Post>
         else {
             likeToggle.setChecked(false);
         }
-
-        trophy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent challengeSummary = new Intent(getContext(), ChallengeSummary.class);
-                challengeSummary.putExtra("postid", String.valueOf(postI));
-                challengeSummary.putExtra("imgUrl", post.image);
-                challengeSummary.putExtra("username", "tiffany");
-
-                getContext().startActivity(challengeSummary);
-            }
-        });
 
         likeToggle.setOnClickListener(new CompoundButton.OnClickListener() {
             @Override
@@ -486,7 +411,7 @@ class FunnyAdapter extends ArrayAdapter<Post>
 
                         }
                     });
-                    
+
                 }
             }
         });
