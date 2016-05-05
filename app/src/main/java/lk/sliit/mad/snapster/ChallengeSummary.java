@@ -99,7 +99,7 @@ public class ChallengeSummary extends AppCompatActivity {
         params.put("username", "tiffany");
         //params.setForceMultipartEntityContentType(true);
 
-        client.get("https://hidden-shore-36246.herokuapp.com/api/feed/funny", params, new JsonHttpResponseHandler() {
+        client.get("https://hidden-shore-36246.herokuapp.com/api/challenge/post", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // If the response is JSONObject instead of expected JSONArray
