@@ -83,7 +83,9 @@ public class ChallengeSummary extends AppCompatActivity {
         Intent i = getIntent();
         String postId = i.getStringExtra("postid");
         String imgUrl = i.getStringExtra("imgUrl");
-        ImageView challengeeImage = (ImageView) findViewById(R.id.imgViewChallenge);
+
+        ImageView challengeeImage = (ImageView) findViewById(R.id.imgViewChallengee);
+
         Animation fadeInAnimation = new AlphaAnimation(0, 1);
         fadeInAnimation.setInterpolator(new DecelerateInterpolator()); //add this
         fadeInAnimation.setDuration(1000);
