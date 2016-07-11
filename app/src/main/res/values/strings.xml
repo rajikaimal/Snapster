@@ -28,4 +28,5 @@
     </string-array>
     <string name="title_activity_funny_feed">Funny Feed</string>
     <string name="title_activity_funny_hof">Funny Hall of Fame</string>
+    <string name="title_activity_camera">CameraActivity</string>
 </resources>

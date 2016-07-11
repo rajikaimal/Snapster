@@ -26,9 +26,11 @@ public class profile_settings extends AppCompatActivity {
         TextView Name = (TextView) findViewById(R.id.editText_name);
         TextView Email = (TextView) findViewById(R.id.editEmail);
         TextView Username= (TextView)findViewById(R.id.editText_username);
+
         Name.setText(data[0]);
         Email.setText(data[2]);
         Username.setText(data[3]);
+
 
     }
 
